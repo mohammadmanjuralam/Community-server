@@ -112,7 +112,19 @@ async function run() {
       res.send(result);
     });
 
-   
+    app.get("/issues/:id", async (req, res) => {
+      try {
+        const id = req.params.id;
+        const issue = await issueCollection.findOne({ _id: new ObjectId(id) });
+        if (!issue) {
+          return res.status(404).json({ message: "Issue not found" });
+        }
+        res.json(issue);
+      } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: "Server error" });
+      }
+    });
 
     // app.get("/issues/:id", async (req, res) => {
     //   const id = req.params.id;
