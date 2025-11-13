@@ -54,6 +54,7 @@ async function run() {
       }
     });
 
+    
     // app.get("/issues", async (req, res) => {
     //   try {
     //     const limit = parseInt(req.query.limit) || 6; // default 6
@@ -68,9 +69,12 @@ async function run() {
 
     app.get("/issues", async (req, res) => {
       try {
-        const cursor = issueCollection.find({}).sort({ _id: -1 }).limit(6);
+        const cursor = issueCollection
+          .find({})
+          .sort({ _id: -1 }) 
+          .limit(6); 
 
-        const result = await cursor.toArray();
+        const result = await cursor.toArray(); 
         res.send(result);
       } catch (error) {
         console.log("Error fetching issues:", error);
@@ -92,12 +96,24 @@ async function run() {
       res.send(result);
     });
 
+    app.post("/issues", async (req, res) => {
+      const issue = req.body;
+      const result = await issueCollection.insertOne(issue);
+      res.send(result);
+    });
+
+ 
+
+   
+
     // app.get("/issues/:id", async (req, res) => {
     //   const id = req.params.id;
     //   const query = { _id: new ObjectId(id) };
     //   const result = await issueCollection.findOne(query);
     //   res.send(result);
     // });
+
+   
   } catch (error) {}
 }
 run();
