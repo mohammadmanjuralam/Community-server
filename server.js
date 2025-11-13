@@ -102,7 +102,15 @@ async function run() {
       res.send(result);
     });
 
- 
+    app.put("/issues/:id", async (req, res) => {
+      const id = req.params.id;
+      const updated = req.body;
+      const result = await issueCollection.updateOne(
+        { _id: new ObjectId(id) },
+        { $set: updated }
+      );
+      res.send(result);
+    });
 
    
 
