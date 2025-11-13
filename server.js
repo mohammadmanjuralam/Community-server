@@ -34,6 +34,27 @@ async function run() {
     const contributionCollection = community_DB.collection("contributions");
 
     //ALL ROUTES START HERE
+// Assuming you're using Express
+app.get("/contributions", async (req, res) => {
+  const email = req.query.email;
+  if (!email) {
+    return res.status(400).json({ message: "Email query param missing" });
+  }
+
+  try {
+    const contributions = await contributionCollection
+      .find({ email: email })
+      .toArray();
+    res.json(contributions);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to load contributions" });
+  }
+});
+
+
+
+
     app.post("/users", async (req, res) => {
       const user = req.body;
       const result = await userCollection.insertOne(user);
