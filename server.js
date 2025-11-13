@@ -9,8 +9,6 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-
-
 //MONGDB URI
 const uri = process.env.MONGO_URI;
 const client = new MongoClient(uri, {
@@ -34,26 +32,34 @@ async function run() {
     const contributionCollection = community_DB.collection("contributions");
 
     //ALL ROUTES START HERE
-// Assuming you're using Express
-app.get("/contributions", async (req, res) => {
-  const email = req.query.email;
-  if (!email) {
-    return res.status(400).json({ message: "Email query param missing" });
-  }
+    // Assuming you're using Express
+    app.get("/contributions", async (req, res) => {
+      const email = req.query.email;
+      if (!email) {
+        return res.status(400).json({ message: "Email query param missing" });
+      }
 
-  try {
-    const contributions = await contributionCollection
-      .find({ email: email })
-      .toArray();
-    res.json(contributions);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Failed to load contributions" });
-  }
-});
+      try {
+        const contributions = await contributionCollection
+          .find({ email: email })
+          .toArray();
+        res.json(contributions);
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Failed to load contributions" });
+      }
+    });
 
-
-
+    app.post("/contributions", async (req, res) => {
+      try {
+        const contribution = req.body;
+        const result = await contributionCollection.insertOne(contribution);
+        res.send(result);
+      } catch (err) {
+        console.error(err);
+        res.status(500).send({ message: "Failed to submit contribution" });
+      }
+    });
 
     app.post("/users", async (req, res) => {
       const user = req.body;
