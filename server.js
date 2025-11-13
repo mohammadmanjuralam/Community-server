@@ -133,7 +133,11 @@ async function run() {
     //   res.send(result);
     // });
 
-   
+    app.delete("/issues/:id", async (req, res) => {
+      const id = req.params.id;
+      const result = await issueCollection.deleteOne({ _id: new ObjectId(id) });
+      res.send(result);
+    });
   } catch (error) {}
 }
 run();
