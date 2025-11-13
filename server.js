@@ -42,7 +42,17 @@ async function run() {
       res.send(result);
     });
 
-   
+    app.get("/Issues", async (req, res) => {
+      try {
+        const issues = await issueCollection.find().toArray();
+        res.send(issues);
+      } catch (err) {
+        console.error("Error fetching issues:", err);
+        res
+          .status(500)
+          .send({ success: false, message: "Failed to fetch issues" });
+      }
+    });
 
     // app.get("/issues", async (req, res) => {
     //   try {
