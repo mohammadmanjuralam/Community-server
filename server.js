@@ -91,11 +91,7 @@ async function run() {
       }
     });
 
-    // app.get("/my-issues/:email", async (req, res) => {
-    //   const email = req.params.email;
-    //   const userIssues = await issueCollection.find({ email }).toArray();
-    //   res.send(userIssues);
-    // });
+  
 
     app.get("/my-issues", async (req, res) => {
       const email = req.query.email;
@@ -135,12 +131,6 @@ async function run() {
       }
     });
 
-    // app.get("/issues/:id", async (req, res) => {
-    //   const id = req.params.id;
-    //   const query = { _id: new ObjectId(id) };
-    //   const result = await issueCollection.findOne(query);
-    //   res.send(result);
-    // });
 
     app.delete("/issues/:id", async (req, res) => {
       const id = req.params.id;
