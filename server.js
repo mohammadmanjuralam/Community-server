@@ -84,7 +84,13 @@ async function run() {
     //   res.send(userIssues);
     // });
 
-   
+    app.get("/my-issues", async (req, res) => {
+      const email = req.query.email;
+      console.log(email);
+      const query = { email: email };
+      const result = await issueCollection.find(query).toArray();
+      res.send(result);
+    });
 
     // app.get("/issues/:id", async (req, res) => {
     //   const id = req.params.id;
