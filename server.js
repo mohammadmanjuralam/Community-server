@@ -9,9 +9,7 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-app.listen(port, (req, res) => {
-  console.log("server port is:", port);
-});
+
 
 //MONGDB URI
 const uri = process.env.MONGO_URI;
@@ -125,3 +123,7 @@ async function run() {
   } catch (error) {}
 }
 run();
+
+app.listen(port, (req, res) => {
+  console.log("server port is:", port);
+});
