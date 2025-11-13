@@ -26,7 +26,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // MongoDB Connect
-    await client.connect();
+    // await client.connect();
     console.log("MongoDB Connected Successfully");
 
     // Database name
@@ -54,30 +54,14 @@ async function run() {
       }
     });
 
-    
-    // app.get("/issues", async (req, res) => {
-    //   try {
-    //     const limit = parseInt(req.query.limit) || 6; // default 6
-    //     const cursor = issueCollection.find().sort({  _id:-1 }).limit(limit);
-    //     const issues = await cursor.toArray();
-    //     res.send(issues);
-    //   } catch (error) {
-    //     console.error("Error fetching issues:", error);
-    //     res.status(500).send({ message: "Failed to fetch issues" });
-    //   }
-    // });
-
-    app.get("/issues", async (req, res) => {
+    app.get("/issues-limit", async (req, res) => {
       try {
-        const cursor = issueCollection
-          .find({})
-          .sort({ _id: -1 }) 
-          .limit(6); 
-
-        const result = await cursor.toArray(); 
-        res.send(result);
+        const limit = parseInt(req.query.limit) || 6;
+        const cursor = issueCollection.find().sort({ _id: -1 }).limit(limit);
+        const issues = await cursor.toArray();
+        res.send(issues);
       } catch (error) {
-        console.log("Error fetching issues:", error);
+        console.error("Error fetching issues:", error);
         res.status(500).send({ message: "Failed to fetch issues" });
       }
     });
