@@ -66,7 +66,17 @@ async function run() {
     //   }
     // });
 
- 
+    app.get("/issues", async (req, res) => {
+      try {
+        const cursor = issueCollection.find({}).sort({ _id: -1 }).limit(6);
+
+        const result = await cursor.toArray();
+        res.send(result);
+      } catch (error) {
+        console.log("Error fetching issues:", error);
+        res.status(500).send({ message: "Failed to fetch issues" });
+      }
+    });
 
     // app.get("/my-issues/:email", async (req, res) => {
     //   const email = req.params.email;
